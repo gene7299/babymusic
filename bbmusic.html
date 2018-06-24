@@ -34,7 +34,9 @@ body{
 //<![CDATA[
 var myPlaylist = null;
 var bbmusic_total = [9,10,10,10,10,10,9,10,10,10,10,10,10,10,10,10,10]; 
-
+function getRandom(x){
+    return Math.floor(Math.random()*x);
+};
 function setBBMusicToPlaylist(cdid){
 	var cdid1 = cdid+1;
 	var scdid1 = (cdid1<10)?"0"+cdid1:cdid1+"";
@@ -60,13 +62,6 @@ $(document).ready(function(){
 		jPlayer: "#jquery_jplayer_N",
 		cssSelectorAncestor: "#jp_container_N"
 	}, [
-		{
-			//title:"Cro Magnon Man",
-			//artist:"The Stark Palace",
-			//mp3:"http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
-			//oga:"http://www.jplayer.org/audio/ogg/TSP-01-Cro_magnon_man.ogg",
-			//poster: "http://www.jplayer.org/audio/poster/The_Stark_Palace_640x360.png"
-		}
 	], {
 		playlistOptions: {
 			enableRemoveControls: true
@@ -86,7 +81,9 @@ $(document).ready(function(){
 
 
 
-
+	setTimeout(function(){
+		playbbmusic(getRandom(17));
+	},500);
 
 
 
