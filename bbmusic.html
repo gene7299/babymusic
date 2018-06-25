@@ -22,7 +22,21 @@ body{
 }
   .big-btn {
         width: 50px;
-        height: 40px;
+        height: 35px;
+    }
+    .album_name{
+    	width: 420px;
+        font-size: .7em;;
+    
+    font-family: Verdana, Arial, sans-serif;
+    line-height: 1.6;
+    color: #fff;
+    border-top: 1px solid #554461;
+    border-left: 1px solid #554461;
+    border-right: 1px solid #180a1f;
+    border-bottom: 1px solid #180a1f;
+    background-color: #3a2a45;
+    text-align: center;
     }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -30,8 +44,10 @@ body{
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="dist/jplayer/jquery.jplayer.js"></script>
 <script type="text/javascript" src="dist/add-on/jplayer.playlist.js"></script>
+<script type="text/javascript" src="babymusicinfo.min.js"></script>
 <script type="text/javascript">
 //<![CDATA[
+
 var myPlaylist = null;
 var bbmusic_total = [9,10,10,10,10,10,9,10,10,10,10,10,10,10,10,10,10]; 
 function getRandom(x){
@@ -41,10 +57,21 @@ function setBBMusicToPlaylist(cdid){
 	var cdid1 = cdid+1;
 	var scdid1 = (cdid1<10)?"0"+cdid1:cdid1+"";
 	var list = [];
+	var enalbeid3 = false;
+
+	if(cdid1 <= 17){
+		var nowid3 = eval("id3_"+cdid1);
+		enalbeid3 =  true;
+	}
+
 	for(var i = 0; i < bbmusic_total[cdid]; i++){
 		var item = new Object();
-		item.title = "CD"+scdid1+"  Track "+(i+1);
-		item.artist = "雷蒙拉普(Raimond Lap)";
+
+/*		item.title = "("+scdid1+"-"+(i+1)+")" + ((enalbeid3==true)?"  "+nowid3[i].title:"");*/
+
+		item.title = ((enalbeid3==true)?"  "+nowid3[i].title:"");
+
+		item.artist = "";//雷蒙拉普(Raimond Lap)";
 		item.mp3 = "lovelybaby/CD"+scdid1+"/CD"+scdid1+"("+(i+1)+").mp3";
 		item.poster = "lovelybaby/CD"+scdid1+"/Folder.jpg";
 		item.free = true;
@@ -54,6 +81,7 @@ function setBBMusicToPlaylist(cdid){
 }
 function playbbmusic(CD){
 	// Audio mix playlist
+	$('#albumName').text("CD"+CD+"  "+album_name[CD-1]);
 	setBBMusicToPlaylist(CD-1);
 }
 $(document).ready(function(){
@@ -560,7 +588,7 @@ $(document).ready(function(){
 <button class="big-btn" onclick="playbbmusic(1)">CD01</button><button class="big-btn" onclick="playbbmusic(2)">CD02</button><button class="big-btn" onclick="playbbmusic(3)">CD03</button><button class="big-btn" onclick="playbbmusic(4)">CD04</button><button class="big-btn" onclick="playbbmusic(5)">CD05</button><button class="big-btn" onclick="playbbmusic(6)">CD06</button><button class="big-btn" onclick="playbbmusic(7)">CD07</button><button class="big-btn" onclick="playbbmusic(8)">CD08</button><button class="big-btn" onclick="playbbmusic(9)">CD09</button>
 <br>
 <button class="big-btn" onclick="playbbmusic(10)">CD10</button><button class="big-btn" onclick="playbbmusic(11)">CD11</button><button class="big-btn" onclick="playbbmusic(12)">CD12</button><button class="big-btn" onclick="playbbmusic(13)">CD13</button><button class="big-btn" onclick="playbbmusic(14)">CD14</button><button class="big-btn" onclick="playbbmusic(15)">CD15</button><button class="big-btn" onclick="playbbmusic(16)">CD16</button><button class="big-btn" onclick="playbbmusic(17)">CD17</button>
-
+<div id="albumName" class="album_name"></div>
 <div id="jp_container_N" class="jp-video jp-video-270p" role="application" aria-label="media player">
 	<div class="jp-type-playlist">
 		<div id="jquery_jplayer_N" class="jp-jplayer"></div>
