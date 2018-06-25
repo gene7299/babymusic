@@ -47,12 +47,38 @@ body{
 <script type="text/javascript" src="babymusicinfo.min.js"></script>
 <script type="text/javascript">
 //<![CDATA[
-
+var oktoplay = false;
 var myPlaylist = null;
 var bbmusic_total = [9,10,10,10,10,10,9,10,10,10,10,10,10,10,10,10,10]; 
 function getRandom(x){
     return Math.floor(Math.random()*x);
 };
+
+
+
+function getCookie(cookieName) {
+  var name = cookieName + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0; i<ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1);
+      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+  }
+  return "";
+}
+function setCookie(cookieName, cookieValue, exdays) {
+  if (document.cookie.indexOf(cookieName) >= 0) {
+    var expD = new Date();
+    expD.setTime(expD.getTime() + (-1*24*60*60*1000));
+    var uexpires = "expires="+expD.toUTCString();
+    document.cookie = cookieName + "=" + cookieValue + "; " + uexpires; 
+  } 
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+d.toUTCString();
+  document.cookie = cookieName + "=" + cookieValue + "; " + expires;  
+}
+
 function setBBMusicToPlaylist(cdid){
 	var cdid1 = cdid+1;
 	var scdid1 = (cdid1<10)?"0"+cdid1:cdid1+"";
@@ -80,11 +106,40 @@ function setBBMusicToPlaylist(cdid){
 	myPlaylist.setPlaylist(list);
 }
 function playbbmusic(CD){
+	if(oktoplay == false){
+		return;
+	}
 	// Audio mix playlist
 	$('#albumName').text("CD"+CD+"  "+album_name[CD-1]);
 	setBBMusicToPlaylist(CD-1);
 }
 $(document).ready(function(){
+
+	oktoplay = false;
+	var pass = getCookie("babypass");
+	if(pass != "yesbb")
+	{
+		var person = prompt("Please enter password !! (Only check on first time)", "");
+
+		if (person != null) {
+			setCookie("babypass",person,'365');
+			var pass2 = getCookie("babypass");
+			if(pass2 != "yesbb"){
+
+			}else{
+				oktoplay = true;
+			}
+		}
+	
+
+	}else{
+		oktoplay = true;
+	}
+
+	if(oktoplay == false){
+		return;
+	}
+
 
 	myPlaylist = new jPlayerPlaylist({
 		jPlayer: "#jquery_jplayer_N",
